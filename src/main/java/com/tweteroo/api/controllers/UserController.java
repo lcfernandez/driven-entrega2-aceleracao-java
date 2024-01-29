@@ -1,5 +1,7 @@
 package com.tweteroo.api.controllers;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +26,11 @@ public class UserController {
 
   @PostMapping
   public ResponseEntity<Object> createUser(@RequestBody @Valid UserDTO body) {
-    UserModel user = userService.save(body);
+    Optional<UserModel> user = userService.save(body);
+
+    if (!user.isPresent())
+      return ResponseEntity.status(HttpStatus.CONFLICT).body("Repeated username!");
+      
     return ResponseEntity.status(HttpStatus.CREATED).body(user);
   }
 }
