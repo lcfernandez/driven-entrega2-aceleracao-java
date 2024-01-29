@@ -7,10 +7,10 @@ import lombok.Data;
 
 @Data
 public class TweetDTO {
-  @NotNull
+  @NotNull(message = "userId is mandatory!")
   private Long userId;
 
-  @NotBlank
+  @NotBlank(message = "text is mandatory!")
   @Size(max = 280, message = "Maximun length for text is 280 characters!")
   private String text;
 }
