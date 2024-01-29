@@ -7,9 +7,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tweteroo.api.repositories.TweetRepository;
+
 @RestController
 @RequestMapping("/tweets")
 public class TweetController {
+  final TweetRepository tweetRepository;
+
+  TweetController(TweetRepository tweetRepository) {
+    this.tweetRepository = tweetRepository;
+  }
+  
   @GetMapping
   public String getTweets() {
     return "Tweets";
