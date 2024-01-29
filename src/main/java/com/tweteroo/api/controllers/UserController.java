@@ -1,5 +1,7 @@
 package com.tweteroo.api.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +23,9 @@ public class UserController {
   }
 
   @PostMapping
-  public void createUser(@RequestBody @Valid UserDTO body) {
+  public ResponseEntity<Object> createUser(@RequestBody @Valid UserDTO body) {
     UserModel user = new UserModel(body);
     userRepository.save(user);
+    return ResponseEntity.status(HttpStatus.CREATED).body(user);
   }
 }

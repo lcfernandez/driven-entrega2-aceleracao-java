@@ -2,6 +2,8 @@ package com.tweteroo.api.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +27,9 @@ public class TweetController {
   }
 
   @GetMapping
-  public List<TweetModel> getTweets() {
-    return tweetRepository.findAll();
+  public ResponseEntity<Object> getTweets() {
+    List<TweetModel> tweets = tweetRepository.findAll();
+    return ResponseEntity.status(HttpStatus.OK).body(tweets);
   }
   
   @GetMapping("/user/{id}")
@@ -38,8 +41,9 @@ public class TweetController {
   // }
 
   @PostMapping
-  public void createTweet(@RequestBody @Valid TweetDTO body) {
+  public ResponseEntity<Object> createTweet(@RequestBody @Valid TweetDTO body) {
     TweetModel tweet = new TweetModel(body);
     tweetRepository.save(tweet);
+    return ResponseEntity.status(HttpStatus.CREATED).body(tweet);
   }
 }
