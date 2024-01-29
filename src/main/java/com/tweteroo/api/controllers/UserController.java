@@ -9,23 +9,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tweteroo.api.dto.UserDTO;
 import com.tweteroo.api.models.UserModel;
-import com.tweteroo.api.repositories.UserRepository;
+import com.tweteroo.api.services.UserService;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
-  final UserRepository userRepository;
+  final UserService userService;
 
-  UserController(UserRepository userRepository) {
-    this.userRepository = userRepository;
+  UserController(UserService userService) {
+    this.userService = userService;
   }
 
   @PostMapping
   public ResponseEntity<Object> createUser(@RequestBody @Valid UserDTO body) {
-    UserModel user = new UserModel(body);
-    userRepository.save(user);
+    UserModel user = userService.save(body);
     return ResponseEntity.status(HttpStatus.CREATED).body(user);
   }
 }
