@@ -21,8 +21,17 @@ public class TweetService {
     this.userRepository = userRepository;
   }
 
-  public List<TweetModel> findALL() {
+  public List<TweetModel> findAll() {
     return tweetRepository.findAll();
+  }
+
+  public Optional<List<TweetModel>> findAllByUserId(Long id) {
+    Optional<UserModel> user = userRepository.findById(id);
+
+    if (!user.isPresent())
+      return Optional.empty();
+
+    return tweetRepository.findByUser(user.get());
   }
 
   public Optional<TweetModel> save(TweetDTO dto) {

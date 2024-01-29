@@ -1,5 +1,6 @@
 package com.tweteroo.api.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -28,16 +29,18 @@ public class TweetController {
 
   @GetMapping
   public ResponseEntity<Object> getTweets() {
-    return ResponseEntity.status(HttpStatus.OK).body(tweetService.findALL());
+    return ResponseEntity.status(HttpStatus.OK).body(tweetService.findAll());
   }
   
   @GetMapping("/user/{id}")
-  public String getTweetsByUserId(@PathVariable("id") Long id) {
-    return "Tweets - User " + id;
+  public ResponseEntity<Object> getTweetsByUserId(@PathVariable("id") Long id) {
+    Optional<List<TweetModel>> tweets = tweetService.findAllByUserId(id);
+
+    if (!tweets.isPresent())
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("userId doesn't exist!");
+
+    return ResponseEntity.status(HttpStatus.OK).body(tweets);
   }
-  // public List<TweetModel> getTweetsByUserId(@PathVariable("id") Long id) {
-  //   return tweetRepository...;
-  // }
 
   @PostMapping
   public ResponseEntity<Object> createTweet(@RequestBody @Valid TweetDTO body) {
