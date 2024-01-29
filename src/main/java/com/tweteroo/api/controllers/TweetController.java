@@ -1,6 +1,7 @@
 package com.tweteroo.api.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,11 @@ public class TweetController {
 
   @PostMapping
   public ResponseEntity<Object> createTweet(@RequestBody @Valid TweetDTO body) {
-    TweetModel tweet = tweetService.save(body);
+    Optional<TweetModel> tweet = tweetService.save(body);
+
+    if (!tweet.isPresent())
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("userId doesn’t exist!");
+
     return ResponseEntity.status(HttpStatus.CREATED).body(tweet);
   }
 }
