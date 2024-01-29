@@ -1,6 +1,5 @@
 package com.tweteroo.api.controllers;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -45,7 +44,7 @@ public class TweetController {
     Optional<TweetModel> tweet = tweetService.save(body);
 
     if (!tweet.isPresent())
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("userId doesn’t exist!");
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("userId doesn't exist!");
 
     return ResponseEntity.status(HttpStatus.CREATED).body(tweet);
   }
