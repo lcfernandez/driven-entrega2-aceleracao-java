@@ -5,7 +5,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tweteroo.api.dto.UserDTO;
+import com.tweteroo.api.models.UserModel;
 import com.tweteroo.api.repositories.UserRepository;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
@@ -17,7 +21,8 @@ public class UserController {
   }
 
   @PostMapping
-  public void createUser(@RequestBody String body) {
-    System.out.println(body);
+  public void createUser(@RequestBody @Valid UserDTO body) {
+    UserModel user = new UserModel(body);
+    userRepository.save(user);
   }
 }
