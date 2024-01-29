@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class UserDTO {
   @NotBlank
-  @Size(max = 100, message = "Maximum length for name is 100 characters!")
+  @Size(max = 100, message = "Maximum length for username is 100 characters!")
   private String username;
 
   @NotBlank
