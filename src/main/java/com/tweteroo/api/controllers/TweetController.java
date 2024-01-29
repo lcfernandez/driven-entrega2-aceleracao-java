@@ -13,23 +13,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tweteroo.api.dto.TweetDTO;
 import com.tweteroo.api.models.TweetModel;
-import com.tweteroo.api.repositories.TweetRepository;
+import com.tweteroo.api.services.TweetService;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/tweets")
 public class TweetController {
-  final TweetRepository tweetRepository;
+  final TweetService tweetService;
 
-  TweetController(TweetRepository tweetRepository) {
-    this.tweetRepository = tweetRepository;
+  TweetController(TweetService tweetService) {
+    this.tweetService = tweetService;
   }
 
   @GetMapping
   public ResponseEntity<Object> getTweets() {
-    List<TweetModel> tweets = tweetRepository.findAll();
-    return ResponseEntity.status(HttpStatus.OK).body(tweets);
+    return ResponseEntity.status(HttpStatus.OK).body(tweetService.findALL());
   }
   
   @GetMapping("/user/{id}")
@@ -42,8 +41,7 @@ public class TweetController {
 
   @PostMapping
   public ResponseEntity<Object> createTweet(@RequestBody @Valid TweetDTO body) {
-    TweetModel tweet = new TweetModel(body);
-    tweetRepository.save(tweet);
+    TweetModel tweet = tweetService.save(body);
     return ResponseEntity.status(HttpStatus.CREATED).body(tweet);
   }
 }
